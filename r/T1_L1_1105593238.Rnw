@@ -1,0 +1,136 @@
+\documentclass[11pt]{report}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{anysize} 
+\marginsize{1.78cm}{1.65cm}{1.78cm}{1.78cm} 
+
+\title{\Huge Universidad Nacional de Loja \\ 
+Área de la Energía las Industrias y los Recursos Naturales no Renovables}
+\author{\includegraphics[width=5cm, height=5cm]{unl.jpg} \\\\\\\\
+Ingeniería en Sistemas\\\\
+\textbf{Trimestrales Calificaciones aprobación de presidentes de EEUU}\\\\
+Manuel Stalin Armijos Ordóñez \\ msarmijoso@unl.edu.ec \\\\
+ ECINF7225}\\\\
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\maketitle
+
+\begin{center}\textbf{PRESIDENTS}\end{center}
+\begin{center}\textbf{Trimestrales Calificaciones aprobación de presidentes de EEUU}\end{center}
+\textbf{Descripción}\\
+El (aproximadamente) calificación trimestral aprobación para el Presidente de los Estados Unidos a partir del primer trimestre de 1945 hasta el último trimestre de 1.974.
+\\\\
+\textbf{Uso:}\\
+PRESIDENTES.
+\\\\
+\textbf{Formato}\\
+Una serie de tiempo de 120 valores.
+
+\\\\
+\textbf{Detalles}\\
+
+Los datos son en realidad una versión amañadas de los índices de aprobación. Ver el libro de McNeil para más detalles.
+
+\\\\
+\textbf{Fuente}\\
+begin{itemize}
+\item La Organización Gallup.
+\end{itemize}
+
+\\\\
+\textbf{Referencias}\\
+\begin{itemize}
+\item McNeil, DR (1977) Análisis de Datos Interactivo. Nueva York: Wiley.
+\end{itemize}
+
+\\\\
+\textbf{Ejemplos}\\
+require(stats); require(graphics)\\
+plot(presidents, las = 1, ylab = "Approval rating (%)",
+     main = "presidents data")
+\\\\\\
+
+\\\\
+\textbf{Determinar la estadística, cuando presidents son mayores a 1960}
+
+<<eval=TRUE, echo=FALSE>>=
+  require(utils)
+
+uno<- as.list(presidents)
+anios<- c(seq(1945, 1974, by=1))
+Qtr1<- c(uno[seq(1, 117, by=4)])
+Qtr2<- c(uno[seq(2, 118, by=4)])
+Qtr3<- c(uno[seq(3, 119, by=4)])
+Qtr4<- c(uno[seq(4, 120, by=4)])
+
+a<- anios [anios > 1960]
+a
+
+@
+  \\\\\\
+\textbf{Determinar la estadística, cuando Qtr4 menores a 70 y mayores a 50, Cuál es el 3erQ}
+
+<<eval=TRUE, echo=FALSE>>=
+require(utils)
+uno<- as.list(presidents)
+anios<- c(seq(1945, 1974, by=1))
+Qtr1<- c(uno[seq(1, 117, by=4)])
+Qtr2<- c(uno[seq(2, 118, by=4)])
+Qtr3<- c(uno[seq(3, 119, by=4)])
+Qtr4<- c(uno[seq(4, 120, by=4)])
+
+
+dt1<- matrix(c(anios,Qtr1,Qtr2,Qtr3,Qtr4),ncol=5)
+mt<- as.data.frame.array(dt1)
+
+
+cuart <- subset(mt, mt$V5<70 & mt$V5>50)
+resum <- data.matrix(cuart)
+summary(resum, na.remome=TRUE)
+
+@
+
+\textbf{Determinar la estadística, cuando Qtr3 y Qtr4 están asignación (NA)}
+
+<<eval=TRUE, echo=FALSE>>=
+require(utils)
+uno<- as.list(presidents)
+anios<- c(seq(1945, 1974, by=1))
+Qtr1<- c(uno[seq(1, 117, by=4)])
+Qtr2<- c(uno[seq(2, 118, by=4)])
+Qtr3<- c(uno[seq(3, 119, by=4)])
+Qtr4<- c(uno[seq(4, 120, by=4)])
+
+cuart <- subset(mt, mt$V5<70 & mt$V5>50)
+resum <- data.matrix(cuart)
+summary(resum, na.remome=TRUE)
+
+@
+
+\textbf{Graficar Qtr1 Vs Qtr2, cuando Qtr2 no tiene asignación.}
+
+<<eval=TRUE, echo=FALSE>>=
+  require(utils)
+uno<- as.list(presidents)
+anios<- c(seq(1945, 1974, by=1))
+Qtr1<- c(uno[seq(1, 117, by=4)])
+Qtr2<- c(uno[seq(2, 118, by=4)])
+Qtr3<- c(uno[seq(3, 119, by=4)])
+Qtr4<- c(uno[seq(4, 120, by=4)])
+
+q1 <- subset(mt, mt$V3 == NA)
+q1
+resum <- data.matrix(cuart)
+
+
+
+
+@
+
+
+\end{document}
+
